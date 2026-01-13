@@ -1,0 +1,14 @@
+{
+  "rules": [
+    {
+      "role": "admin",
+      "verb": "noop",
+      "action": "allow"
+    }
+  ],
+  "roles": [
+    "admin",
+    "user",
+    "service"
+  ]
+}
