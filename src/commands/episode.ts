@@ -3,14 +3,28 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 
-function readEpisodeFile(filePath: string): any[] {
+type EpisodeRecord = {
+  episode_id?: string;
+  id?: string;
+  episode_type?: string;
+  verb?: string;
+  tool_id?: string;
+  connector_id?: string;
+  [key: string]: unknown;
+};
+
+function normalizeEpisode(value: unknown): EpisodeRecord {
+  return value && typeof value === "object" ? (value as EpisodeRecord) : {};
+}
+
+function readEpisodeFile(filePath: string): EpisodeRecord[] {
   const ext = path.extname(filePath);
   if (ext === ".jsonl") {
     const lines = fs.readFileSync(filePath, "utf8").split("\n").filter(Boolean);
-    return lines.map((l) => JSON.parse(l));
+    return lines.map((line) => normalizeEpisode(JSON.parse(line)));
   }
   const raw = fs.readFileSync(filePath, "utf8");
-  return [JSON.parse(raw)];
+  return [normalizeEpisode(JSON.parse(raw))];
 }
 
 export async function episodeList(options: { verb?: string; tool?: string }) {

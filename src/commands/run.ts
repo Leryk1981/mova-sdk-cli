@@ -29,10 +29,12 @@ export async function runCommand(
     // Send via HTTP to MCP gateway
     const fetch = (await import("node-fetch")).default;
     try {
+      const planRaw = fs.readFileSync(absolutePlan, "utf8");
+      const planData: unknown = JSON.parse(planRaw);
       const resp = await fetch(options.endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: require(absolutePlan) }),
+        body: JSON.stringify({ plan: planData }),
       });
       const payload = await resp.json();
       if (resp.ok) {
@@ -50,12 +52,13 @@ export async function runCommand(
         }
         throw new Error(`MCP error ${resp.status}`);
       }
-    } catch (e: any) {
-      console.error(chalk.red(`Network error: ${e.message}`));
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : "Unknown error";
+      console.error(chalk.red(`Network error: ${message}`));
       if (exitOnComplete) {
         process.exit(1);
       }
-      throw e;
+      throw e instanceof Error ? e : new Error(message);
     }
   } else {
     // Run locally using the existing mova-agent script
