@@ -1,4 +1,4 @@
-# MOVA SDK CLI (v0.1.0)
+# MOVA SDK CLI (v0.1.1)
 
 Command-line interface for MOVA Agent: scaffold projects, validate plans, run locally or via MCP gateway, manage drivers, policies, and episodes.
 
