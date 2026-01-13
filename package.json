@@ -66,10 +66,10 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Leryk1981/mova_agent.git"
+    "url": "git+https://github.com/Leryk1981/mova-sdk-cli.git"
   },
   "bugs": {
-    "url": "https://github.com/Leryk1981/mova_agent/issues"
+    "url": "https://github.com/Leryk1981/mova-sdk-cli/issues"
   },
-  "homepage": "https://github.com/Leryk1981/mova_agent#readme"
+  "homepage": "https://www.npmjs.com/package/@leryk1981/mova-sdk-cli"
 }
