@@ -32,6 +32,9 @@
     "ts-jest": "^29.2.5",
     "typescript": "^5.4.5"
   },
+  "overrides": {
+    "picomatch": "4.0.3"
+  },
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
