@@ -1,6 +1,6 @@
 {
   "name": "@leryk1981/mova-sdk-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Command‑line interface for MOVA‑Agent – scaffolding, validation and execution of MOVA plans",
   "main": "dist/cli.js",
   "bin": {
@@ -10,6 +10,7 @@
     "build": "tsc -p .",
     "lint": "eslint src/**/*.ts",
     "test": "jest",
+    "test:integration": "jest tests/integration --runInBand",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "ci": "npm run lint && npm test && npm run build",
@@ -39,7 +40,8 @@
     "preset": "ts-jest",
     "testEnvironment": "node",
     "testMatch": [
-      "**/src/**/*.test.ts"
+      "**/src/**/*.test.ts",
+      "**/tests/**/*.test.ts"
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",

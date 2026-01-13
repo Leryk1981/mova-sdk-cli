@@ -16,6 +16,21 @@ export async function runCommand(
   planFile: string,
   options: RunOptions
 ): Promise<void> {
+  // Smoke/integration mode: generate a dummy episode without invoking agent
+  if (process.env.MOVA_SMOKE_MODE === "1") {
+    const episodesDir = path.resolve(process.cwd(), "episodes");
+    fs.mkdirSync(episodesDir, { recursive: true });
+    const episode = {
+      episode_id: `smoke-${Date.now()}`,
+      verb: "noop",
+      status: "ok",
+    };
+    const target = path.join(episodesDir, `${episode.episode_id}.json`);
+    fs.writeFileSync(target, JSON.stringify(episode, null, 2));
+    console.log(chalk.green(`✅ Smoke run completed, episode at ${target}`));
+    return;
+  }
+
   const exitOnComplete = options.exitOnComplete !== false;
   const absolutePlan = path.resolve(process.cwd(), planFile);
   if (!fs.existsSync(absolutePlan)) {
