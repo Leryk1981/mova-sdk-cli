@@ -3,12 +3,12 @@ import os from "os";
 import path from "path";
 import { execSync, spawnSync } from "child_process";
 
-const repoRoot = path.resolve(__dirname, "..", "..", "..");
-const cliEntry = path.join(repoRoot, "sdk-cli", "dist", "cli.js");
+const repoRoot = path.resolve(__dirname, "..", "..");
+const cliEntry = path.join(repoRoot, "dist", "cli.js");
 
 function ensureCliBuilt() {
   if (!fs.existsSync(cliEntry)) {
-    execSync("npm run build", { cwd: path.join(repoRoot, "sdk-cli"), stdio: "inherit" });
+    execSync("npm run build", { cwd: repoRoot, stdio: "inherit" });
   }
 }
 
@@ -24,7 +24,8 @@ function runCli(args: string[], options: { cwd?: string } = {}) {
     },
   });
   if (result.error) {
-    throw result.error;
+    const message = result.error instanceof Error ? result.error.message : String(result.error);
+    throw new Error(`CLI execution failed: ${message}`);
   }
   return result;
 }

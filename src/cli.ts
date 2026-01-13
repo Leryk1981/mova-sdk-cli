@@ -12,7 +12,7 @@ const program = new Command();
 program
   .name("mova")
   .description("MOVA SDK CLI – scaffolding, validation and execution of MOVA plans")
-  .version("0.1.0");
+  .version("0.1.1");
 
 program
   .command("init")
