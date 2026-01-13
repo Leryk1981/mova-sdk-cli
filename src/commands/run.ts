@@ -3,6 +3,7 @@ import { spawn } from "child_process";
 import path from "path";
 import chalk from "chalk";
 import fs from "fs";
+import { randomUUID } from "crypto";
 
 type RunOptions = { endpoint?: string; exitOnComplete?: boolean };
 
@@ -31,9 +32,10 @@ export async function runCommand(
     try {
       const planRaw = fs.readFileSync(absolutePlan, "utf8");
       const planData: unknown = JSON.parse(planRaw);
+      const requestId = randomUUID();
       const resp = await fetch(options.endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "X-Request-Id": requestId },
         body: JSON.stringify({ plan: planData }),
       });
       const payload = await resp.json();
