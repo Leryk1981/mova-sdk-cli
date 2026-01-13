@@ -3,6 +3,7 @@ import { validateFile } from "../utils/validator";
 import chalk from "chalk";
 
 type PlanOptions = { schema: string; exitOnComplete?: boolean };
+type ValidationError = { instancePath?: string; message?: string };
 
 /**
  * Validate a MOVA plan JSON file against a given schema.
@@ -16,7 +17,7 @@ export async function planCommand(planFile: string, options: PlanOptions): Promi
       console.log(chalk.green(`PASS ${planFile}`));
     } else {
       console.log(chalk.red(`FAIL ${planFile}`));
-      result.errors.forEach((err: any) => {
+      result.errors.forEach((err: ValidationError) => {
         const loc = err.instancePath || "/";
         console.log(`  ${loc}: ${err.message}`);
       });
@@ -28,11 +29,12 @@ export async function planCommand(planFile: string, options: PlanOptions): Promi
       throw new Error("Plan validation failed");
     }
     return;
-  } catch (e: any) {
-    console.error(chalk.red(`Error: ${e.message}`));
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : "Unknown error";
+    console.error(chalk.red(`Error: ${message}`));
     if (exitOnComplete) {
       process.exit(1);
     }
-    throw e;
+    throw e instanceof Error ? e : new Error(message);
   }
 }

@@ -1,5 +1,5 @@
 export class SampleDriver {
-  async execute(input: any): Promise<any> {
+  async execute(input: unknown): Promise<{ ok: boolean; input: unknown }> {
     // TODO: implement driver logic
     return { ok: true, input };
   }
