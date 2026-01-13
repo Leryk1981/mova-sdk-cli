@@ -24,7 +24,8 @@ function runCli(args: string[], options: { cwd?: string } = {}) {
     },
   });
   if (result.error) {
-    throw result.error;
+    const message = result.error instanceof Error ? result.error.message : String(result.error);
+    throw new Error(`CLI execution failed: ${message}`);
   }
   return result;
 }
