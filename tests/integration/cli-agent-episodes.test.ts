@@ -3,7 +3,7 @@ import os from "os";
 import path from "path";
 import { execSync, spawnSync } from "child_process";
 
-const repoRoot = path.resolve(__dirname, "..", "..", "..");
+const repoRoot = path.resolve(__dirname, "..", "..");
 const cliEntry = path.join(repoRoot, "dist", "cli.js");
 
 function ensureCliBuilt() {
